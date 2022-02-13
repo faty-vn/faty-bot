@@ -186,5 +186,12 @@
     "prettier",
     "react-hooks",
     "@typescript-eslint"
-  ]
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "."
+      }
+    }
+  }
 }
