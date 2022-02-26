@@ -2,11 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import connectDB from 'database'
 import UserModel from 'database/user'
 import { sendUpdateMessage } from 'services/update-message'
+import i18n from 'i18n'
+
+connectDB()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) { 
 		if (req.method === 'POST') {
-			await connectDB()
-			
 			const user = await UserModel.findOne({ id: req.query.userId })
 
 		if (user) {
@@ -32,9 +33,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 		await sendUpdateMessage({
 			userId: req.query.userId as string,
-			text: 'Please input your idea:',
+			text: i18n.t('curation.pleaseInputIdea'),
 		})
-		res.send('Please close this page and continue the conversation.')
+		res.send(i18n.t('closeWindow'))
 	} else {
 		res.status(404)
 	} 

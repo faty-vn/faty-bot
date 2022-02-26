@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty'
 import { generateText } from './text-generator'
 import config from 'config'
 
-// import UserModel from '../db/user'
+import UserModel from 'database/user'
 
 import Response from './response'
 import Curation from 'services/curation'
@@ -75,8 +75,8 @@ export default class Receive {
     let message = event.message.text.trim().toLowerCase()
 
     let response
-		let userConfig: any = null
-    // const userConfig = await UserModel.findOne({ id: this.user.psid })
+		
+    const userConfig = await UserModel.findOne({ id: this.user.psid })
     const isGenerating = userConfig && userConfig.isGenerating
 
     if (
@@ -95,15 +95,15 @@ export default class Receive {
     // }
     else if (isEmpty(userConfig)) {
       response = [
-        Response.genText('You did not configure it yet.'),
+        Response.genText(i18n.t('notConfigured')),
         Response.genGenericTemplate(
           `${config.appUrl}/logo.png`,
-          'Click on this button to input your config',
+          i18n.t('curation.clickToConfig'),
           '',
           [
             Response.genWebUrlButton(
-              'Input your config',
-              `${config.appUrl}/config?userId=${this.user.psid}`
+              i18n.t('curation.inputYourConfig'),
+              `${config.appUrl}/configuration?userId=${this.user.psid}`
             ),
           ]
         ),
@@ -111,7 +111,7 @@ export default class Receive {
     } else if (isGenerating) {
       response = [
         Response.genText(
-          'We are generating another paragraph. Please wait for the result.'
+          i18n.t('generating')
         ),
       ]
     } else {
@@ -120,7 +120,7 @@ export default class Receive {
         text: this.webhookEvent.message.text,
       })
       response = [
-        Response.genText('I got your idea. Please wait for the result.'),
+        Response.genText(i18n.t('gotYourIdea')),
       ]
     }
 

@@ -18,9 +18,13 @@
     "curation.instruction.example": "Tôi cần thêm ví dụ.",
     "curation.clickToConfig": "Nhấn vào nút bên dưới để thiết lập thông số.",
     "curation.inputYourConfig": "Thiết lập thông số",
+    "curation.pleaseInputIdea": "Mời bạn nhập ý tưởng!",
     "fallback.attachment": "fallback.attachment",
     "menu.help": "menu.help",
     "menu.start_over": "menu.start_over",
     "closeWindow": "Thiết lập hoàn tất. Vui lòng đóng cửa sổ và tiếp tục.",
-    "chat_plugin.prompt": "chat_plugin.prompt"
+    "chat_plugin.prompt": "chat_plugin.prompt",
+    "gotYourIdea": "Chúng tôi đã nhận được ý tưởng của bạn. Vui lòng chờ đợi kết quả!",
+    "generating": "Chúng tôi đang sinh văn bản. Vui lòng chờ đợi kết quả!",
+    "notConfigured": "Bạn chưa thiết lập thông số."
 }
