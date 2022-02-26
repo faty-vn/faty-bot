@@ -1,0 +1,17 @@
+{
+    "get_started.welcome": "Chào mừng bạn đến với Faty, ứng dụng hỗ trọ sinh văn bản bằng trí tuệ nhân tạo.",
+    "get_started.guidance": "get_started.guidance",
+    "get_started.subtitle": "get_started.subtitle",
+    "get_started.aboutUs": "get_started.aboutUs",
+    "get_started.exploreFeature": "get_started.exploreFeature",
+    "curation.instruction.title": "curation.instruction.title",
+    "curation.instruction.step1": "curation.instruction.step1",
+    "curation.instruction.step2": "curation.instruction.step2",
+    "curation.instruction.whatNext": "curation.instruction.whatNext",
+    "curation.instruction.gotIt": "curation.instruction.gotIt",
+    "curation.instruction.example": "curation.instruction.example",
+    "fallback.attachment": "fallback.attachment",
+    "menu.help": "menu.help",
+    "menu.start_over": "menu.start_over",
+    "chat_plugin.prompt": "chat_plugin.prompt"
+}
