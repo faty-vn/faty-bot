@@ -116,7 +116,7 @@ export default class Response {
   static genNuxMessage(user:any) {
     const welcome = this.genText(
       i18n.t('get_started.welcome', {
-        userFirstName: user.firstName,
+        user,
       })
     )
 
@@ -127,7 +127,7 @@ export default class Response {
       i18n.t('get_started.title'),
       i18n.t('get_started.subtitle'),
       [
-        this.genWebUrlButton(i18n.t('get_started.aboutUs'), `${config.apiUrl}/about`),
+        this.genWebUrlButton(i18n.t('get_started.aboutUs'), `${config.appUrl}/about`),
         this.genPostbackButton(i18n.t('get_started.exploreFeature'), 'CURATION_EXPLORE'),
       ]
     )

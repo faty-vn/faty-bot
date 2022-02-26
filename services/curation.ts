@@ -19,9 +19,9 @@ export default class Curation {
       case 'CURATION_EXPLORE':
         const text = [
           Response.genText(i18n.t('curation.instruction.title')),
-          Response.genText(i18n.t('curation.instruction.step1')),
-          Response.genImageTemplate(`${config.appUrl}/instruction-step1.png`, 'Instruction 1'),
-          Response.genText(i18n.t('curation.instruction.step2')),
+          Response.genText(i18n.t('curation.instruction.step1') + '\n' + i18n.t('curation.instruction.step1Details')),
+          Response.genImageTemplate(`${config.appUrl}/instruction-step1.png`, i18n.t('curation.instruction.step1')),
+          Response.genText(i18n.t('curation.instruction.step2') + '\n' + i18n.t('curation.instruction.step2Details')),
         ]
 
         const quickReply = Response.genQuickReply(i18n.t('curation.instruction.whatNext'), [
@@ -41,11 +41,11 @@ export default class Curation {
         console.log({ user: this.user })
         response = Response.genGenericTemplate(
           `${config.appUrl}/logo.png`,
-          'Click on this button to input your config',
+          i18n.t('curation.clickToConfig'),
           '',
           [
             Response.genWebUrlButton(
-              'Input your config',
+              i18n.t('curation.inputYourConfig'),
               `${config.appUrl}/config?userId=${this.user.psid}`
             ),
           ]

@@ -1,5 +1,5 @@
 {
-    "get_started.welcome": "Hi {{userFirstName}}! Welcome to Faty where you can generate text based on your customized configuration.",
+    "get_started.welcome": "Hi {{user.firstName}}! Welcome to Faty where you can generate text based on your customized configuration.",
     "get_started.guidance": "At any time, use the menu below to navigate through the features.",
     "get_started.title": "What you want to do next?",
     "get_started.subtitle": "Subtitle placeholde",
