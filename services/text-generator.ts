@@ -1,4 +1,4 @@
-const { sendUpdateMessage } = require('./updateMessage')
+const { sendUpdateMessage } = require('./update-message')
 
 export const generateText = async ({ user, text = '' } : {user: any, text: string}) => {
     user.isGenerating = true

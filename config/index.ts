@@ -5,7 +5,6 @@ const ENV_VARS = [
   'APP_SECRET',
   'VERIFY_TOKEN',
   'APP_URL',
-  'SHOP_URL',
 ]
 
 export default {
@@ -40,7 +39,7 @@ export default {
     ENV_VARS.forEach((key) => {
       if (!process.env[key]) {
         console.warn(`WARNING: Missing the environment variable ${key}`)
-      } else if (['APP_URL', 'SHOP_URL'].includes(key)) {
+      } else if (['APP_URL'].includes(key)) {
         const url = process.env[key] || ''
         if (!url.startsWith('https://')) {
           console.warn(`WARNING: Your ${key} does not begin with "https://"`)
