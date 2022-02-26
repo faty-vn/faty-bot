@@ -46,7 +46,7 @@ export default class Curation {
           [
             Response.genWebUrlButton(
               i18n.t('curation.inputYourConfig'),
-              `${config.appUrl}/config?userId=${this.user.psid}`
+              `${config.appUrl}/configuration?userId=${this.user.psid}`
             ),
           ]
         )

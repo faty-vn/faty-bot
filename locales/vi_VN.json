@@ -18,5 +18,6 @@
     "fallback.attachment": "fallback.attachment",
     "menu.help": "menu.help",
     "menu.start_over": "menu.start_over",
+    "closeWindow": "Thiết lập hoàn tất. Vui lòng đóng cửa sổ và tiếp tục.",
     "chat_plugin.prompt": "chat_plugin.prompt"
 }
