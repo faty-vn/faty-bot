@@ -127,13 +127,13 @@ const Configuration = () => {
   const onSubmit = async (data: any) => {
     console.log(data);
     try {
-      // await axios.post(
-      //   `http://localhost:3000/api/configuration?userId=${userId}`,
-      //   {
-      //     ...data,
-      //     keywords: keywords.join(','),
-      //   }
-      // );
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/configuration?userId=${userId}`,
+        {
+          ...data,
+          keywords: keywords.join(','),
+        }
+      );
       
       if (isMobile) {
         router.push('/api/webhook/messenger/close_window')

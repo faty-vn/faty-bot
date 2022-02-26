@@ -47,4 +47,6 @@ export default {
       }
     })
   },
+
+  databaseUri: process.env.DATABASE_URI || 'mongodb://root:example@mongo:27017/faty_dev'
 }
