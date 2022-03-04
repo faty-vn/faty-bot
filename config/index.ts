@@ -12,7 +12,11 @@ export default {
 
   appUrl: process.env.APP_URL,
 
+  aiUrl: process.env.AI_URL,
+
   personas: {},
+
+  databaseUrl: process.env.DATABASE_URI,
 
   port: process.env.PORT || 3000,
 

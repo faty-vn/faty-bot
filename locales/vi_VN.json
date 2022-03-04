@@ -26,5 +26,6 @@
     "chat_plugin.prompt": "chat_plugin.prompt",
     "gotYourIdea": "Chúng tôi đã nhận được ý tưởng của bạn. Vui lòng chờ đợi kết quả!",
     "generating": "Chúng tôi đang sinh văn bản. Vui lòng chờ đợi kết quả!",
-    "notConfigured": "Bạn chưa thiết lập thông số."
+    "notConfigured": "Bạn chưa thiết lập thông số.",
+    "ai.unavailable": "Xin lỗi, tính năng sinh văn bản hiện không khả dụng."
 }

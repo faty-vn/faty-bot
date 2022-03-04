@@ -1,24 +1,44 @@
+import config from 'config'
+import i18n from 'i18n'
+import { get } from 'lodash'
+import fetch from 'node-fetch'
 import { sendUpdateMessage } from './update-message'
 
 export const generateText = async ({ user, text = '' }: { user: any; text: string }) => {
   user.isGenerating = true
   await user.save()
-  await new Promise((resolve, _reject) =>
-    setTimeout(() => {
-      const sendText =
-        `id: ${user.id}\n` +
-        `category: ${user.category}\n` +
-        `kind: ${user.kind}\n` +
-        `keywords: ${user.keywords}\n` +
-        `text: ${text}`
 
-      sendUpdateMessage({
-        userId: user.id,
-        text: sendText,
+  let generatedText: any
+
+  if (config.aiUrl) {
+    try {
+      const response = await fetch(config.aiUrl, {
+        method: 'POST',
+        body: JSON.stringify({
+          text,
+          keywords: [...user.keywords, user.category, user.kind],
+        }),
       })
-      resolve('')
-    }, 10 * 1000)
-  )
+
+      generatedText = get(await response.json(), 'text', '')
+    } catch (err) {
+      console.log(err)
+      generatedText = i18n.t('ai.unavailable')
+    }
+  } else {
+    /* eslint no-promise-executor-return: "off" */
+    generatedText = await new Promise((resolve, _reject) =>
+      setTimeout(() => {
+        resolve(i18n.t('ai.unavailable'))
+      }, 10 * 1000)
+    )
+  }
+
+  sendUpdateMessage({
+    userId: user.id,
+    text: generatedText,
+  })
+
   user.isGenerating = false
   await user.save()
 }

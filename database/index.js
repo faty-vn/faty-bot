@@ -1,3 +1,4 @@
+import config from 'config'
 import mongoose from 'mongoose'
 
 const connection = {}
@@ -7,7 +8,7 @@ async function dbConnect() {
     return
   }
 
-  const db = await mongoose.connect('mongodb://root:example@localhost:27017/', {
+  const db = await mongoose.connect(config.databaseUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
