@@ -1,11 +1,4 @@
-const ENV_VARS = [
-  'PAGE_ID',
-  'APP_ID',
-  'PAGE_ACCESS_TOKEN',
-  'APP_SECRET',
-  'VERIFY_TOKEN',
-  'APP_URL',
-]
+const ENV_VARS = ['PAGE_ID', 'APP_ID', 'PAGE_ACCESS_TOKEN', 'APP_SECRET', 'VERIFY_TOKEN', 'APP_URL']
 
 export default {
   apiDomain: 'https://graph.facebook.com',
@@ -48,5 +41,5 @@ export default {
     })
   },
 
-  databaseUri: process.env.DATABASE_URI || 'mongodb://root:example@mongo:27017/faty_dev'
+  databaseUri: process.env.DATABASE_URI || 'mongodb://root:example@mongo:27017/faty_dev',
 }

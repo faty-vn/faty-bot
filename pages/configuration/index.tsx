@@ -1,14 +1,14 @@
-import { isEmpty } from 'lodash';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { isEmpty } from 'lodash'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import axios from 'axios';
-import styled from 'styled-components';
-import {isMobile} from 'react-device-detect';
+import axios from 'axios'
+import styled from 'styled-components'
+import { isMobile } from 'react-device-detect'
 import i18n from 'i18n'
 
 const Header = styled.h1`
-  font-size: 48px
+  font-size: 48px;
 `
 
 const Wrapper = styled.div`
@@ -98,13 +98,13 @@ const CATEGORIES = [
   { value: 'news', text: 'News' },
   { value: 'article', text: 'Article' },
   { value: 'paper', text: 'Paper' },
-];
+]
 
 const KINDS = [
   { value: 'sports', text: 'Sports' },
   { value: 'technology', text: 'Technology' },
   { value: 'economy', text: 'Economy' },
-];
+]
 
 const Configuration = () => {
   const router = useRouter()
@@ -120,40 +120,37 @@ const Configuration = () => {
       category: 'news',
       kind: 'sports',
     },
-  });
-  const [keywords, setKeywords] = useState<any[]>([]);
-  const [isSuccess, setIsSuccess] = useState(false);
+  })
+  const [keywords, setKeywords] = useState<any[]>([])
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const onSubmit = async (data: any) => {
-    console.log(data);
+    console.log(data)
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_APP_URL}/api/configuration?userId=${userId}`,
-        {
-          ...data,
-          keywords: keywords.join(','),
-        }
-      );
-      
+      await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/configuration?userId=${userId}`, {
+        ...data,
+        keywords: keywords.join(','),
+      })
+
       if (isMobile) {
         router.push('/api/webhook/messenger/close_window')
       } else {
-        setIsSuccess(true);
+        setIsSuccess(true)
       }
     } catch (err) {
-      console.log('error');
+      console.log('error')
     }
-  };
+  }
 
   const addKeyword = () => {
-    setKeywords([...keywords, '']);
-  };
+    setKeywords([...keywords, ''])
+  }
 
   const onKeywordChange = (position: any, value: any) => {
-    const newKeywords: any[] = [...keywords];
-    newKeywords[position] = value;
-    setKeywords(newKeywords);
-  };
+    const newKeywords: any[] = [...keywords]
+    newKeywords[position] = value
+    setKeywords(newKeywords)
+  }
 
   if (isSuccess) {
     return (
@@ -171,9 +168,7 @@ const Configuration = () => {
         <ConfigurationForm onSubmit={handleSubmit(onSubmit)}>
           <FieldWrapper>
             <FieldLabel>Category</FieldLabel>
-            <SelectInput
-              {...register('category', { required: true })}
-            >
+            <SelectInput {...register('category', { required: true })}>
               {CATEGORIES.map((category) => (
                 <option key={category.value} value={category.value}>
                   {category.text}
@@ -185,9 +180,7 @@ const Configuration = () => {
 
           <FieldWrapper>
             <FieldLabel>Kind</FieldLabel>
-            <SelectInput
-              {...register('kind', { required: true })}
-            >
+            <SelectInput {...register('kind', { required: true })}>
               {KINDS.map((kind) => (
                 <option key={kind.value} value={kind.value}>
                   {kind.text}
@@ -198,9 +191,7 @@ const Configuration = () => {
           </FieldWrapper>
 
           <Keywords>
-            {!isEmpty(keywords) && (
-              <FieldLabel>Keywords</FieldLabel>
-            )}
+            {!isEmpty(keywords) && <FieldLabel>Keywords</FieldLabel>}
 
             {keywords.map((keyword, i) => (
               <KeywordInput
@@ -212,18 +203,14 @@ const Configuration = () => {
           </Keywords>
 
           <ButtonsWarpper>
-            <AddKeywordButton onClick={addKeyword}>
-              Add keyword
-            </AddKeywordButton>
+            <AddKeywordButton onClick={addKeyword}>Add keyword</AddKeywordButton>
 
-            <SubmitButton type="submit">
-              Submit
-            </SubmitButton>
+            <SubmitButton type="submit">Submit</SubmitButton>
           </ButtonsWarpper>
         </ConfigurationForm>
       </div>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Configuration;
+export default Configuration

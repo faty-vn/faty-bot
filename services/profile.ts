@@ -1,136 +1,134 @@
-
-import GraphApi from './graph-api'
 import i18n from 'i18n'
 import config from 'config'
+import GraphApi from './graph-api'
 
 const locales = i18n.languages
 
 export default class Profile {
-	setWebhook() {
-		GraphApi.callSubscriptionsAPI({});
-		GraphApi.callSubscribedApps({});
-	}
+  setWebhook() {
+    GraphApi.callSubscriptionsAPI({})
+    GraphApi.callSubscribedApps({})
+  }
 
-	setPageFeedWebhook() {
-		GraphApi.callSubscriptionsAPI('feed');
-		GraphApi.callSubscribedApps('feed');
-	}
+  setPageFeedWebhook() {
+    GraphApi.callSubscriptionsAPI('feed')
+    GraphApi.callSubscribedApps('feed')
+  }
 
-	setThread() {
-		let profilePayload = {
-			...this.getGetStarted(),
-			...this.getGreeting(),
-			...this.getPersistentMenu(),
-		};
+  setThread() {
+    const profilePayload = {
+      ...this.getGetStarted(),
+      ...this.getGreeting(),
+      ...this.getPersistentMenu(),
+    }
 
-		GraphApi.callMessengerProfileAPI(profilePayload);
-	}
+    GraphApi.callMessengerProfileAPI(profilePayload)
+  }
 
-	setGetStarted() {
-		let getStartedPayload = this.getGetStarted();
-		GraphApi.callMessengerProfileAPI(getStartedPayload);
-	}
+  setGetStarted() {
+    const getStartedPayload = this.getGetStarted()
+    GraphApi.callMessengerProfileAPI(getStartedPayload)
+  }
 
-	setGreeting() {
-		let greetingPayload = this.getGreeting();
-		GraphApi.callMessengerProfileAPI(greetingPayload);
-	}
+  setGreeting() {
+    const greetingPayload = this.getGreeting()
+    GraphApi.callMessengerProfileAPI(greetingPayload)
+  }
 
-	setPersistentMenu() {
-		let menuPayload = this.getPersistentMenu();
-		GraphApi.callMessengerProfileAPI(menuPayload);
-	}
+  setPersistentMenu() {
+    const menuPayload = this.getPersistentMenu()
+    GraphApi.callMessengerProfileAPI(menuPayload)
+  }
 
-	setWhitelistedDomains() {
-		let domainPayload = this.getWhitelistedDomains();
-		GraphApi.callMessengerProfileAPI(domainPayload);
-	}
+  setWhitelistedDomains() {
+    const domainPayload = this.getWhitelistedDomains()
+    GraphApi.callMessengerProfileAPI(domainPayload)
+  }
 
-	getGetStarted() {
-		return {
-			get_started: {
-				payload: 'GET_STARTED',
-			},
-		};
-	}
+  getGetStarted() {
+    return {
+      get_started: {
+        payload: 'GET_STARTED',
+      },
+    }
+  }
 
-	getGreeting() {
-		let greetings = [];
+  getGreeting() {
+    const greetings = []
 
-		for (let locale of locales) {
-			if (locale != 'dev') {
-				greetings.push(this.getGreetingText(locale));
-			}
-		}
+    for (const locale of locales) {
+      if (locale !== 'dev') {
+        greetings.push(this.getGreetingText(locale))
+      }
+    }
 
-		return {
-			greeting: greetings,
-		};
-	}
+    return {
+      greeting: greetings,
+    }
+  }
 
-	getPersistentMenu() {
-		let menuItems = [];
+  getPersistentMenu() {
+    const menuItems = []
 
-		for (let locale of locales) {
-			if (locale != 'dev') {
-				menuItems.push(this.getMenuItems(locale));
-			}
-		}
+    for (const locale of locales) {
+      if (locale !== 'dev') {
+        menuItems.push(this.getMenuItems(locale))
+      }
+    }
 
-		return {
-			persistent_menu: menuItems,
-		};
-	}
+    return {
+      persistent_menu: menuItems,
+    }
+  }
 
-	getGreetingText(locale: string) {
-		let param = locale === 'vi_VN' ? 'default' : locale;
-	
-		i18n.changeLanguage(locale);
+  getGreetingText(locale: string) {
+    const param = locale === 'vi_VN' ? 'default' : locale
 
-		let localizedGreeting = {
-			locale: param,
-			text: i18n.t('profile.greeting', {
-				user_first_name: '{{user_first_name}}',
-			}),
-		};
+    i18n.changeLanguage(locale)
 
-		console.log({ localizedGreeting });
-		return localizedGreeting;
-	}
+    const localizedGreeting = {
+      locale: param,
+      text: i18n.t('profile.greeting', {
+        user_first_name: '{{user_first_name}}',
+      }),
+    }
 
-	getMenuItems(locale: string) {
-		let param = locale === 'vi_VN' ? 'default' : locale;
+    console.log({ localizedGreeting })
+    return localizedGreeting
+  }
 
-		i18n.changeLanguage(locale);
+  getMenuItems(locale: string) {
+    const param = locale === 'vi_VN' ? 'default' : locale
 
-		let localizedMenu = {
-			locale: param,
-			composer_input_disabled: false,
-			call_to_actions: [
-				{
-					title: i18n.t('changeConfig'),
-					type: 'postback',
-					payload: 'CURATION_GOT_IT',
-				},
-				{
-					title: i18n.t('showInstruction'),
-					type: 'postback',
-					payload: 'CURATION_EXPLORE',
-				},
-			],
-		};
+    i18n.changeLanguage(locale)
 
-		console.log({ localizedMenu });
-		return localizedMenu;
-	}
+    const localizedMenu = {
+      locale: param,
+      composer_input_disabled: false,
+      call_to_actions: [
+        {
+          title: i18n.t('changeConfig'),
+          type: 'postback',
+          payload: 'CURATION_GOT_IT',
+        },
+        {
+          title: i18n.t('showInstruction'),
+          type: 'postback',
+          payload: 'CURATION_EXPLORE',
+        },
+      ],
+    }
 
-	getWhitelistedDomains() {
-		let whitelistedDomains = {
-			whitelisted_domains: config.whitelistedDomains,
-		};
+    console.log({ localizedMenu })
+    return localizedMenu
+  }
 
-		console.log({ whitelistedDomains });
-		return whitelistedDomains;
-	}
-};
+  getWhitelistedDomains() {
+    const whitelistedDomains = {
+      whitelisted_domains: config.whitelistedDomains,
+    }
 
+    console.log({ whitelistedDomains })
+    return whitelistedDomains
+  }
+}

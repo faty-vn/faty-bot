@@ -1,7 +1,7 @@
 import config from 'config'
-import Receive  from 'services/receive'
-import GraphApi  from 'services/graph-api'
-import User  from 'services/user'
+import Receive from 'services/receive'
+import GraphApi from 'services/graph-api'
+import User from 'services/user'
 
 import i18n from 'i18n'
 

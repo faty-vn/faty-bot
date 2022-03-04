@@ -19,9 +19,20 @@ export default class Curation {
       case 'CURATION_EXPLORE':
         const text = [
           Response.genText(i18n.t('curation.instruction.title')),
-          Response.genText(i18n.t('curation.instruction.step1') + '\n' + i18n.t('curation.instruction.step1Details')),
-          Response.genImageTemplate(`${config.appUrl}/instruction-step1.png`, i18n.t('curation.instruction.step1')),
-          Response.genText(i18n.t('curation.instruction.step2') + '\n' + i18n.t('curation.instruction.step2Details')),
+          Response.genText(
+            `${i18n.t('curation.instruction.step1')}\n${i18n.t(
+              'curation.instruction.step1Details'
+            )}`
+          ),
+          Response.genImageTemplate(
+            `${config.appUrl}/instruction-step1.png`,
+            i18n.t('curation.instruction.step1')
+          ),
+          Response.genText(
+            `${i18n.t('curation.instruction.step2')}\n${i18n.t(
+              'curation.instruction.step2Details'
+            )}`
+          ),
         ]
 
         const quickReply = Response.genQuickReply(i18n.t('curation.instruction.whatNext'), [
@@ -51,9 +62,11 @@ export default class Curation {
           ]
         )
         break
+
+      default:
+        break
     }
 
     return response
   }
 }
-

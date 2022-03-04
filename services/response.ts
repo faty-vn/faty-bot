@@ -2,8 +2,8 @@ import config from 'config'
 import i18n from '../i18n'
 
 export default class Response {
-  static genQuickReply(text: string, quickReplies: {title:string, payload:string}[]) {
-    const response: {text:String, quick_replies: any} = {
+  static genQuickReply(text: string, quickReplies: { title: string; payload: string }[]) {
+    const response: { text: string; quick_replies: any } = {
       text,
       quick_replies: [],
     }
@@ -19,7 +19,7 @@ export default class Response {
     return response
   }
 
-  static genGenericTemplate(image_url:string, title:string, subtitle='', buttons:any[]) {
+  static genGenericTemplate(imageUrl: string, title: string, subtitle = '', buttons: any[] = []) {
     const response = {
       attachment: {
         type: 'template',
@@ -29,7 +29,7 @@ export default class Response {
             {
               title,
               subtitle,
-              image_url,
+              image_url: imageUrl,
               buttons,
             },
           ],
@@ -40,7 +40,7 @@ export default class Response {
     return response
   }
 
-  static genImageTemplate(image_url:string, title:string, subtitle = '') {
+  static genImageTemplate(imageUrl: string, title: string, subtitle = '') {
     const response = {
       attachment: {
         type: 'template',
@@ -50,7 +50,7 @@ export default class Response {
             {
               title,
               subtitle,
-              image_url,
+              image_url: imageUrl,
             },
           ],
         },
@@ -60,7 +60,7 @@ export default class Response {
     return response
   }
 
-  static genButtonTemplate(title:string, buttons:any[]) {
+  static genButtonTemplate(title: string, buttons: any[]) {
     const response = {
       attachment: {
         type: 'template',
@@ -75,7 +75,7 @@ export default class Response {
     return response
   }
 
-  static genText(text:string) {
+  static genText(text: string) {
     const response = {
       text,
     }
@@ -83,16 +83,16 @@ export default class Response {
     return response
   }
 
-  static genTextWithPersona(text:string, persona_id:string) {
+  static genTextWithPersona(text: string, personaId: string) {
     const response = {
       text,
-      persona_id,
+      persona_id: personaId,
     }
 
     return response
   }
 
-  static genPostbackButton(title:string, payload:any) {
+  static genPostbackButton(title: string, payload: any) {
     const response = {
       type: 'postback',
       title,
@@ -102,7 +102,7 @@ export default class Response {
     return response
   }
 
-  static genWebUrlButton(title:string, url:string) {
+  static genWebUrlButton(title: string, url: string) {
     const response = {
       type: 'web_url',
       title,
@@ -113,7 +113,7 @@ export default class Response {
     return response
   }
 
-  static genNuxMessage(user:any) {
+  static genNuxMessage(user: any) {
     const welcome = this.genText(
       i18n.t('get_started.welcome', {
         user,

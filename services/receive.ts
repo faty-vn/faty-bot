@@ -1,18 +1,19 @@
 import isEmpty from 'lodash/isEmpty'
 
-import { generateText } from './text-generator'
 import config from 'config'
 
 import UserModel from 'database/user'
 
-import Response from './response'
 import Curation from 'services/curation'
 import GraphApi from 'services/graph-api'
+import Response from './response'
+import { generateText } from './text-generator'
 import i18n from '../i18n'
 
 export default class Receive {
-	user: any
-	webhookEvent: any
+  user: any
+
+  webhookEvent: any
 
   constructor(user = {}, webhookEvent = {}) {
     this.user = user
@@ -22,13 +23,13 @@ export default class Receive {
   // Check if the event is a message or postback and
   // call the appropriate handler function
   async handleMessage() {
-    let event = this.webhookEvent
+    const event = this.webhookEvent
 
     let responses
 
     try {
       if (event.message) {
-        let message = event.message
+        const { message } = event
 
         if (message.quick_reply) {
           responses = this.handleQuickReply()
@@ -52,7 +53,7 @@ export default class Receive {
 
     if (Array.isArray(responses)) {
       let delay = 0
-      for (let response of responses) {
+      for (const response of responses) {
         this.sendMessage(response, delay * 2000)
         delay++
       }
@@ -63,37 +64,22 @@ export default class Receive {
 
   // Handles messages events with text
   async handleTextMessage() {
-    console.log(
-      'Received text:',
-      `${this.webhookEvent.message.text} for ${this.user.psid}`
-    )
+    console.log('Received text:', `${this.webhookEvent.message.text} for ${this.user.psid}`)
 
-    let event = this.webhookEvent
+    const event = this.webhookEvent
 
     // check greeting is here and is confident
-    let greeting = this.firstEntity(event.message.nlp, 'greetings')
-    let message = event.message.text.trim().toLowerCase()
+    const greeting = this.firstEntity(event.message.nlp, 'greetings')
+    const message = event.message.text.trim().toLowerCase()
 
     let response
-		
+
     const userConfig = await UserModel.findOne({ id: this.user.psid })
     const isGenerating = userConfig && userConfig.isGenerating
 
-    if (
-      (greeting && greeting.confidence > 0.8) ||
-      message.includes('start over')
-    ) {
+    if ((greeting && greeting.confidence > 0.8) || message.includes('start over')) {
       response = Response.genNuxMessage(this.user)
-    }
-    // else if (Number(message)) {
-    //   response = Order.handlePayload('ORDER_NUMBER')
-    // } else if (message.includes('#')) {
-    //   response = Survey.handlePayload('CSAT_SUGGESTION')
-    // } else if (message.includes(i18n.__('care.help').toLowerCase())) {
-    //   let care = new Care(this.user, this.webhookEvent)
-    //   response = care.handlePayload('CARE_HELP')
-    // }
-    else if (isEmpty(userConfig)) {
+    } else if (isEmpty(userConfig)) {
       response = [
         Response.genText(i18n.t('notConfigured')),
         Response.genGenericTemplate(
@@ -109,19 +95,13 @@ export default class Receive {
         ),
       ]
     } else if (isGenerating) {
-      response = [
-        Response.genText(
-          i18n.t('generating')
-        ),
-      ]
+      response = [Response.genText(i18n.t('generating'))]
     } else {
       generateText({
         user: userConfig,
         text: this.webhookEvent.message.text,
       })
-      response = [
-        Response.genText(i18n.t('gotYourIdea')),
-      ]
+      response = [Response.genText(i18n.t('gotYourIdea'))]
     }
 
     return response
@@ -129,13 +109,11 @@ export default class Receive {
 
   // Handles mesage events with attachments
   handleAttachmentMessage() {
-    let response
-
     // Get the attachment
-    let attachment = this.webhookEvent.message.attachments[0]
+    const attachment = this.webhookEvent.message.attachments[0]
     console.log('Received attachment:', `${attachment} for ${this.user.psid}`)
 
-    response = Response.genQuickReply(i18n.t('fallback.attachment'), [
+    const response = Response.genQuickReply(i18n.t('fallback.attachment'), [
       {
         title: i18n.t('menu.help'),
         payload: 'CARE_HELP',
@@ -152,14 +130,14 @@ export default class Receive {
   // Handles mesage events with quick replies
   handleQuickReply() {
     // Get the payload of the quick reply
-    let payload = this.webhookEvent.message.quick_reply.payload
+    const { payload } = this.webhookEvent.message.quick_reply
 
     return this.handlePayload(payload)
   }
 
   // Handles postbacks events
   handlePostback() {
-    let postback = this.webhookEvent.postback
+    const { postback } = this.webhookEvent
     // Check for the special Get Starded with referral
     let payload
     if (postback.payload) {
@@ -175,7 +153,7 @@ export default class Receive {
   // Handles referral events
   handleReferral() {
     // Get the payload of the postback
-    let payload = this.webhookEvent.referral.ref.toUpperCase()
+    const payload = this.webhookEvent.referral.ref.toUpperCase()
 
     return this.handlePayload(payload)
   }
@@ -186,19 +164,13 @@ export default class Receive {
     let response
 
     // Set the response based on the payload
-    if (
-      payload === 'GET_STARTED' ||
-      payload === 'DEVDOCS' ||
-      payload === 'GITHUB'
-    ) {
+    if (payload === 'GET_STARTED' || payload === 'DEVDOCS' || payload === 'GITHUB') {
       response = Response.genNuxMessage(this.user)
     } else if (payload.includes('CURATION') || payload.includes('COUPON')) {
-      let curation = new Curation(this.user, this.webhookEvent)
+      const curation = new Curation(this.user, this.webhookEvent)
       response = curation.handlePayload(payload)
     } else if (payload.includes('CHAT-PLUGIN')) {
-      response = [
-        Response.genText(i18n.t('chat_plugin.prompt')),
-      ]
+      response = [Response.genText(i18n.t('chat_plugin.prompt'))]
     } else {
       response = {
         text: `This is a default postback message for payload: ${payload}!`,
@@ -208,23 +180,20 @@ export default class Receive {
     return response
   }
 
-  handlePrivateReply(type: any, object_id: any) {
-    let response = Response.genGenericTemplate(
+  handlePrivateReply(type: any, objectId: any) {
+    const response = Response.genGenericTemplate(
       `https://v2l.edu.vn/wp-content/uploads/2021/02/direction-1400x665.png`,
       i18n.t('get_started.title'),
       i18n.t('get_started.subtitle'),
       [
         Response.genWebUrlButton(i18n.t('get_started.aboutUs'), 'faty.vn'),
-        Response.genPostbackButton(
-          i18n.t('get_started.exploreFeature'),
-          'CURATION_EXPLORE'
-        ),
+        Response.genPostbackButton(i18n.t('get_started.exploreFeature'), 'CURATION_EXPLORE'),
       ]
     )
 
-    let requestBody = {
+    const requestBody = {
       recipient: {
-        [type]: object_id,
+        [type]: objectId,
       },
       message: response,
     }
@@ -235,8 +204,8 @@ export default class Receive {
   sendMessage(response: any, delay = 0) {
     // Check if there is delay in the response
     if ('delay' in response) {
-      delay = response['delay']
-      delete response['delay']
+      delay = response.delay
+      delete response.delay
     }
 
     // Construct the message body
@@ -249,15 +218,15 @@ export default class Receive {
 
     // Check if there is persona id in the response
     if ('persona_id' in response) {
-      let persona_id = response['persona_id']
-      delete response['persona_id']
+      const { personaId } = response
+      delete response.persona_id
 
       requestBody = {
         recipient: {
           id: this.user.psid,
         },
         message: response,
-        persona_id: persona_id,
+        persona_id: personaId,
       }
     }
 
